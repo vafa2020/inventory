@@ -2,6 +2,28 @@ import { useState } from "react";
 
 const Category = () => {
   const [isShow, setIsShow] = useState(false);
+  const [inputValues, setInputValues] = useState({
+    title: "",
+    description: "",
+  });
+  const [categories, setCategories] = useState([]);
+  const changeHandler = (e) => {
+    const { name, value } = e.target;
+    setInputValues({
+      ...inputValues,
+      [name]: value,
+    });
+  };
+  const submitHandler = (e) => {
+    e.preventDefault();
+    const categoryItem = {
+      ...inputValues,
+      id: Math.floor(Math.random() * 10000),
+      createdAt: new Date().toISOString(),
+    };
+    setCategories([...categories, categoryItem]);
+    setInputValues({ title: "", description: "" });
+  };
   const cancelHandler = (e) => {
     e.preventDefault();
     setIsShow(false);
@@ -12,10 +34,16 @@ const Category = () => {
         <h2 className="text-xl text-slate-300 font-bold mb-2">
           Add New Category
         </h2>
-        <form className="bg-slate-600 p-4 rounded-xl flex flex-col gap-y-4">
+        <form
+          onSubmit={submitHandler}
+          className="bg-slate-600 p-4 rounded-xl flex flex-col gap-y-4"
+        >
           <div>
             <label className="block mb-1 text-slate-400">title</label>
             <input
+              onChange={changeHandler}
+              value={inputValues.title}
+              name="title"
               type="text"
               className="bg-transparent rounded-xl border border-slate-500 text-slate-400 w-full md:w-auto form-input"
             />
@@ -23,6 +51,9 @@ const Category = () => {
           <div>
             <label className="block mb-1 text-slate-400">description</label>
             <textarea
+              onChange={changeHandler}
+              value={inputValues.description}
+              name="description"
               cols={50}
               rows={4}
               className="bg-transparent rounded-xl border border-slate-500 text-slate-400 w-full form-textarea"
