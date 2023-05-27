@@ -1,12 +1,11 @@
 import { useState } from "react";
 
-const Product = () => {
+const Product = ({ categories,setProducts }) => {
   const [inputValues, setInputValues] = useState({
     title: "",
-    quantity: "",
+    quantity: 0,
     category: "",
   });
-  const [products, setProducts] = useState([]);
   const changeHandler = (e) => {
     const { name, value } = e.target;
     setInputValues({
@@ -21,8 +20,8 @@ const Product = () => {
       id: Math.floor(Math.random() * 10000),
       createdAt: new Date().toISOString(),
     };
-    setProducts([...products, categoryItem]);
-    setInputValues({ title: "", description: "" });
+    setProducts((prevProduct)=>[...prevProduct, categoryItem]);
+    setInputValues({ title: "", quantity:0, category: "" });
   };
 
   return (
@@ -46,7 +45,7 @@ const Product = () => {
             />
           </div>
           <div>
-            <label className="block mb-1 text-slate-400">description</label>
+            <label className="block mb-1 text-slate-400">quantity</label>
             <input
               onChange={changeHandler}
               value={inputValues.quantity}
@@ -57,13 +56,29 @@ const Product = () => {
           </div>
           <div>
             <label className="block mb-1 text-slate-400">category</label>
-            <select className="text-slate-400 bg-transparent rounded-xl w-full form-select">
-              <option value={"شیر"}>شیر</option>
+            <select
+              className="text-slate-400 bg-transparent rounded-xl w-full form-select"
+              name="category"
+              onChange={changeHandler}
+              value={inputValues.category}
+            >
+              <option className="text-slate-300 bg-slate-500 py-10" value="">
+                Select a category
+              </option>
+              {categories.map((category) => (
+                <option
+                  key={category.id}
+                  className="text-slate-300 bg-slate-500 py-10"
+                  value={category.title}
+                >
+                  {category.title}
+                </option>
+              ))}
             </select>
           </div>
           <button
             type="submit"
-            className="flex-1 bg-slate-500 text-slate-200 rounded-xl"
+            className="flex-1 bg-slate-500 text-slate-200 rounded-xl py-3"
           >
             Add Product
           </button>

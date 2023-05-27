@@ -1,12 +1,11 @@
 import { useState } from "react";
 
-const Category = () => {
+const Category = ({setCategories}) => {
   const [isShow, setIsShow] = useState(false);
   const [inputValues, setInputValues] = useState({
     title: "",
     description: "",
   });
-  const [categories, setCategories] = useState([]);
   const changeHandler = (e) => {
     const { name, value } = e.target;
     setInputValues({
@@ -21,7 +20,7 @@ const Category = () => {
       id: Math.floor(Math.random() * 10000),
       createdAt: new Date().toISOString(),
     };
-    setCategories([...categories, categoryItem]);
+    setCategories((prevCategory)=>[...prevCategory, categoryItem]);
     setInputValues({ title: "", description: "" });
   };
   const cancelHandler = (e) => {
