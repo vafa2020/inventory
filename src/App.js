@@ -10,14 +10,30 @@ function App() {
   const [filterProducts, setFilterProducts] = useState([]);
   const [categories, setCategories] = useState([]);
   const [sort, setSort] = useState("");
+  const [sortCategory, setSortCategory] = useState("");
   const [searchValue, setSearchValue] = useState("");
-
   useEffect(() => {
     let result = products;
     result = filterSearchTitle(result);
     result = sortDate(result);
+    result = sortedCategory(result);
     setFilterProducts(result);
-  }, [products, sort, searchValue]);
+  }, [products, sort, searchValue, sortCategory]);
+  useEffect(() => {
+    setCategories(JSON.parse(localStorage.getItem("categories")) || []);
+    setProducts(JSON.parse(localStorage.getItem("products")) || []);
+  }, []);
+
+  useEffect(() => {
+    if (products.length) {
+      localStorage.setItem("products", JSON.stringify(products));
+    }
+  }, [products]);
+  useEffect(() => {
+    if (categories.length) {
+      localStorage.setItem("categories", JSON.stringify(categories));
+    }
+  }, [categories]);
 
   const onDelete = (id) => {
     const afterDelete = products.filter((product) => product.id !== id);
@@ -47,13 +63,27 @@ function App() {
       }
     });
   };
+  const onSortCategory = (e) => {
+    const { value } = e.target;
+    setSortCategory(value);
+  };
+  const sortedCategory = (array) => {
+    if (!sortCategory) return array;
+    return array.filter((product) => product.category === sortCategory);
+  };
   return (
     <div className="bg-slate-800 min-h-screen">
       <NavBar products={products} />
       <div className="container max-w-screen-sm mx-auto p-4">
         <Category setCategories={setCategories} categories={categories} />
         <Product categories={categories} setProducts={setProducts} />
-        <Filter onChange={searchHandler} onSort={sortHandler} />
+        <Filter
+          onChange={searchHandler}
+          onSort={sortHandler}
+          categories={categories}
+          onSortCategory={onSortCategory}
+          sortCategory={sortCategory}
+        />
         <ProductList products={filterProducts} onDelete={onDelete} />
       </div>
     </div>

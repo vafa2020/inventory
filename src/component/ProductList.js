@@ -1,6 +1,7 @@
 import ProductDetails from "./ProductDetails";
 
 const ProductList = ({ products, onDelete }) => {
+    console.log(products);
   return (
     <div className="mt-5">
       <h2 className="text-green-500">Product List</h2>
