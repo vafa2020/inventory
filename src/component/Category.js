@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-const Category = ({setCategories}) => {
+const Category = ({ setCategories, categories }) => {
   const [isShow, setIsShow] = useState(false);
   const [inputValues, setInputValues] = useState({
     title: "",
@@ -15,12 +15,19 @@ const Category = ({setCategories}) => {
   };
   const submitHandler = (e) => {
     e.preventDefault();
+    const findIndex = categories.findIndex(
+      (category) => category.title === inputValues.title
+    );
+    if (findIndex === 0) {
+      alert("دسته بندی شما تکراریست");
+      return;
+    }
     const categoryItem = {
       ...inputValues,
       id: Math.floor(Math.random() * 10000),
       createdAt: new Date().toISOString(),
     };
-    setCategories((prevCategory)=>[...prevCategory, categoryItem]);
+    setCategories((prevCategory) => [...prevCategory, categoryItem]);
     setInputValues({ title: "", description: "" });
   };
   const cancelHandler = (e) => {
