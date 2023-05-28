@@ -7,6 +7,7 @@ const Filter = ({
 }) => {
   return (
     <div>
+      <h1 className="font-bold border-b-2 mb-5 text-slate-500 border-b-slate-500 py-3">Filter</h1>
       <div className="flex items-center justify-between mb-6">
         <label className="text-slate-500 text-lg">search</label>
         <input

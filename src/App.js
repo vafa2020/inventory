@@ -74,17 +74,21 @@ function App() {
   return (
     <div className="bg-slate-800 min-h-screen">
       <NavBar products={products} />
-      <div className="container max-w-screen-sm mx-auto p-4">
-        <Category setCategories={setCategories} categories={categories} />
-        <Product categories={categories} setProducts={setProducts} />
-        <Filter
-          onChange={searchHandler}
-          onSort={sortHandler}
-          categories={categories}
-          onSortCategory={onSortCategory}
-          sortCategory={sortCategory}
-        />
-        <ProductList products={filterProducts} onDelete={onDelete} />
+      <div className="container flex items-start justify-evenly p-10">
+        <div className="flex-auto mx-10">
+          <Category setCategories={setCategories} categories={categories} />
+          <Product categories={categories} setProducts={setProducts} />
+        </div>
+        <div className="flex-auto mx-10">
+          <Filter
+            onChange={searchHandler}
+            onSort={sortHandler}
+            categories={categories}
+            onSortCategory={onSortCategory}
+            sortCategory={sortCategory}
+          />
+          <ProductList products={filterProducts} onDelete={onDelete} />
+        </div>
       </div>
     </div>
   );
